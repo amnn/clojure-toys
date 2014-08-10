@@ -11,3 +11,19 @@
   (lazy-seq
     (when-let [[y x'] (f x)]
       (cons y (unfold f x')))))
+
+;; (iterate inc n)
+(defn from [n]
+  (unfold #(-> [% (inc %)]) n))
+
+;; (tails coll)
+(defn tails' [coll]
+  (unfold #(when-let [xs (seq %)]
+             [xs (rest xs)])
+          coll))
+
+;; (map f coll)
+(defn map' [f coll]
+  (unfold #(when-let [[x & xs] (seq %)]
+             [(f x) xs])
+          coll))
